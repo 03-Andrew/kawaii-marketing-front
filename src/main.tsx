@@ -11,6 +11,7 @@ import About from './pages/marketing/about'
 import Rooms from './pages/marketing/rooms'
 import BookingPage from './pages/booking-page'
 import Contact from './pages/marketing/contact'
+import Test from './pages/test'
 
 const queryClient = new QueryClient()
 
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/test",
+    element: <Test />,
+  },  
 ])
 
 createRoot(document.getElementById('root')!).render(

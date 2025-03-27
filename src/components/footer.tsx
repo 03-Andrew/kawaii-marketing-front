@@ -8,7 +8,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 text-center lg:text-left">
 
                     {/* Logo and Brand Name Section */}
-                    <div className="flex flex-col items-center lg:items-start space-y-0 ml-20">
+                    <div className="flex flex-col items-center lg:items-start space-y-0">
                         <img src="/landing-page/Kawaii_Logo.svg" alt="Kawaii Logo" className="w-40 h-auto" />
                         <img src="/landing-page/Kawaii_Name.svg" alt="Kawaii Name" className="w-40 h-auto" />
                     </div>
