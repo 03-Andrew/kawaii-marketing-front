@@ -48,7 +48,7 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300 p-2",
+        "fixed top-0 z-50 w-full transition-all duration-300 px-2",
         scrolling || window.innerWidth < 768
           ? "h-fit bg-[var(--background)] backdrop-blur shadow-md"
           : "h-24 bg-transparent backdrop-blur-none",
@@ -133,7 +133,7 @@ export default function Navbar() {
                   key={route.href}
                   to={route.href}
                   className={cn(
-                    "text-sm font-medium transition-all font-light text-2xl relative group",
+                    "text-sm font-medium transition-all font-light text-xl relative group",
                     scrolling || window.innerWidth < 768 ? "text-[var(--foreground)]" : "text-[var(--background)]",
                   )}
                 >
@@ -150,14 +150,14 @@ export default function Navbar() {
               ))}
 
               {/* Discover Dropdown for Desktop */}
-              <div
+              {/* <div
                 className="relative group cursor-pointer"
                 onMouseEnter={() => setDropdownOpen(true)}
                 onMouseLeave={() => setDropdownOpen(false)}
               >
                 <button
                   className={cn(
-                    "text-sm font-medium transition-all font-light text-2xl flex items-center gap-1 relative",
+                    "text-sm font-medium transition-all font-light text-xl flex items-center gap-1 relative",
                     scrolling || window.innerWidth < 768 ? "text-[var(--foreground)]" : "text-[var(--background)]",
                   )}
                 >
@@ -178,7 +178,7 @@ export default function Navbar() {
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
             </nav>
           </div>
         </div>
