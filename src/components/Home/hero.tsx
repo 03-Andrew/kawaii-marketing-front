@@ -27,11 +27,11 @@ export default function Hero() {
       <img
         src={images[selectedIndex] || "/placeholder.svg"}
         alt="Background"
-        className="w-full h-[110vh] object-cover absolute top-[-64px] sm:top-[-80px] left-0 transition-opacity duration-300 z-[-1]"
+        className="w-full h-[110vh] object-cover absolute top-0 left-0 transition-opacity duration-300 z-[-1] mt-[60px] md:mt-0 lg:mt-0"
       />
 
       {/* Content Container - starts below navbar */}
-      <div className="container mx-auto max-w-7xl px-4 md:px-6 min-h-screen relative z-10 flex flex-col justify-center pt-16 sm:pt-20">
+      <div className="container mx-auto max-w-7xl px-4 md:px-6 min-h-screen relative z-10 flex flex-col justify-center pt-28 md:pt-32 lg:pt-36">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 py-8 md:py-0">
           {/* Left Column - Main Content */}
           <div className="text-white flex flex-col justify-center">

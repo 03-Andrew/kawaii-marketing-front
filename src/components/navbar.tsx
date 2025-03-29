@@ -32,13 +32,26 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Force re-render on resize to update conditional classes
+      setScrolling((prev) => (window.innerWidth < 768 ? true : window.scrollY > 50))
+    }
+
+    window.addEventListener("resize", handleResize)
+    // Initial check
+    handleResize()
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
     <header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300 p-2",
-        scrolling
-          ? "h-fit bg-[var(--background)]/80 backdrop-blur shadow-md"
-          : "h-24 bg-transparent backdrop-blur-none"
+        scrolling || window.innerWidth < 768
+          ? "h-fit bg-[var(--background)] backdrop-blur shadow-md"
+          : "h-24 bg-transparent backdrop-blur-none",
       )}
     >
       <div className="container mx-auto max-w-7xl">
@@ -62,10 +75,10 @@ export default function Navbar() {
                       key={route.href}
                       to={route.href}
                       className={cn(
-                        "text-lg font-medium transition-all hover:font-bold hover:underline",
-                        location.pathname === route.href
-                          ? "font-bold underline"
-                          : "text-[var(--foreground)]"
+                        "text-lg font-medium transition-all hover:font-bold relative",
+                        location.pathname === route.href ? "font-bold" : "text-[var(--foreground)]",
+                        "after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-current after:left-0 after:-bottom-1 after:transition-all after:duration-300",
+                        location.pathname === route.href ? "after:w-full" : "hover:after:w-full",
                       )}
                     >
                       {route.label}
@@ -75,7 +88,7 @@ export default function Navbar() {
                   <div className="relative">
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
-                      className="text-lg font-medium transition-all hover:font-bold hover:underline flex items-center gap-1"
+                      className="text-lg font-medium transition-all hover:font-bold flex items-center gap-1 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-current after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full"
                     >
                       Discover <ChevronDown className="h-4 w-4" />
                     </button>
@@ -85,7 +98,7 @@ export default function Navbar() {
                           <Link
                             key={link.href}
                             to={link.href}
-                            className="text-lg transition-all hover:font-bold hover:underline"
+                            className="text-lg transition-all hover:font-bold relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-current after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full"
                           >
                             {link.label}
                           </Link>
@@ -100,9 +113,13 @@ export default function Navbar() {
               <img
                 className={cn(
                   "transition-all duration-300",
-                  scrolling ? "h-18 w-auto" : "h-30 w-auto"
+                  scrolling && window.innerWidth >= 768
+                    ? "h-18 w-auto"
+                    : window.innerWidth < 768
+                      ? "h-12 w-auto"
+                      : "h-30 w-auto",
                 )}
-                src={scrolling ? "/KawaiiLogo.svg" : "/KawaiiLogo.png"}
+                src={scrolling || window.innerWidth < 768 ? "/KawaiiLogo.svg" : "/KawaiiLogo.png"}
                 alt="Kawaii Logo"
               />
             </Link>
@@ -116,13 +133,19 @@ export default function Navbar() {
                   key={route.href}
                   to={route.href}
                   className={cn(
-                    "text-sm font-medium transition-all font-light text-2xl",
-                    scrolling
-                      ? "text-[var(--foreground)] hover:underline"
-                      : "text-[var(--background)] hover:underline"
+                    "text-sm font-medium transition-all font-light text-2xl relative group",
+                    scrolling || window.innerWidth < 768 ? "text-[var(--foreground)]" : "text-[var(--background)]",
                   )}
                 >
                   {route.label}
+                  <span
+                    className={cn(
+                      "absolute -bottom-0.5 left-0 h-[2px] bg-current transform origin-left transition-all duration-300 ease-out",
+                      location.pathname === route.href
+                        ? "w-full scale-100"
+                        : "w-full scale-x-0 group-hover:scale-x-100",
+                    )}
+                  ></span>
                 </Link>
               ))}
 
@@ -134,13 +157,12 @@ export default function Navbar() {
               >
                 <button
                   className={cn(
-                    "text-sm font-medium transition-all font-light text-2xl flex items-center gap-1",
-                    scrolling
-                      ? "text-[var(--foreground)] hover:underline"
-                      : "text-[var(--background)] hover:underline"
+                    "text-sm font-medium transition-all font-light text-2xl flex items-center gap-1 relative",
+                    scrolling || window.innerWidth < 768 ? "text-[var(--foreground)]" : "text-[var(--background)]",
                   )}
                 >
                   Discover <ChevronDown className="h-4 w-4" />
+                  <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-current transform origin-left transition-all duration-300 ease-out scale-x-0 group-hover:scale-x-100"></span>
                 </button>
                 {dropdownOpen && (
                   <div className="absolute left-0 mt-2 w-48 bg-[var(--card)] shadow-md rounded-md p-2">
@@ -148,9 +170,10 @@ export default function Navbar() {
                       <Link
                         key={link.href}
                         to={link.href}
-                        className="block px-4 py-2 text-sm transition-all hover:underline"
+                        className="block px-4 py-2 text-sm transition-all relative group"
                       >
                         {link.label}
+                        <span className="absolute -bottom-1 left-4 right-4 h-[1px] bg-current transform origin-left transition-all duration-300 ease-out scale-x-0 group-hover:scale-x-100"></span>
                       </Link>
                     ))}
                   </div>
@@ -163,3 +186,4 @@ export default function Navbar() {
     </header>
   )
 }
+
